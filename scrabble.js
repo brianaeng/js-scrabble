@@ -43,63 +43,9 @@ var Scrabble = function() {
       }
     }
 
-    return winningWord[0];
+    return winningWord;
   };
 };
-
-
-// Create a new `Player` object. The object should have the following functions:
-//
-// - Constructor: Called when you use `new Player(name)`, sets up an instance with the instance variable `name` assigned
-// - `name`: property which returns the value of the player's name
-// - `plays`: property which returns an Array of the words played by the player
-// - `play(word)`: Function which adds the input word to the `plays` Array
-//     - Returns false if player has already won
-// - `totalScore()`: Function which sums up and returns the score of the players words
-// - `hasWon()`: Function which returns `true` if the player has over 100 points, otherwise returns `false`
-// - `highestScoringWord()`: Function which returns the highest scoring word the user has played
-// - `highestWordScore()`: Function which returns the `highestScoringWord` score
-
-var Player = function(name) {
-  this.name = name;
-  this.plays = [];
-  this.play = function(word) {
-    if (hasWon === true) {
-      return false;
-    }
-    else {
-      this.plays.push(word);
-    }
-  };
-  this.totalScore = function() {
-    var playersScore = 0;
-    for (var i = 0; i < this.plays.length; i++) {
-      total += Scrabble.score(this.plays[i]);
-    }
-    return playersScore;
-  };
-  this.hasWon = function() {
-    if (Player.totalScore() > 100) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  };
-  this.highestScoringWord = function() {
-    return Scrabble.highestScoreFrom(plays);
-  };
-  this.highestWordScore = function() {
-    var word = Scrabble.highestScoreFrom(plays);
-    return Scrabble.highestWordScore(word);
-  };
-};
-
-// Scrabble.prototype.helloWorld = function() {
-//   return 'hello world!';
-// };
-//
-// module.exports = Scrabble;
 
 // var newGame = new Scrabble();
 // var wordScore = newGame.score("aaaaaaa");
@@ -108,3 +54,56 @@ var Player = function(name) {
 // var anotherGame = new Scrabble();
 // var bestWord = anotherGame.highestScoreFrom(["xxxx", "hello", "aaaaa", "bloop", "xxxxx"]);
 // console.log(bestWord);
+
+
+var Player = function(name) {
+  this.name = name;
+  this.plays = [];
+  this.play = function(word) {
+    if (this.hasWon() === true) {
+      return false;
+    }
+    else {
+      this.plays.push(word);
+    }
+  };
+  this.totalScore = function() {
+    var playersScore = 0;
+
+    for (var i = 0; i < this.plays.length; i++) {
+      playersScore += new Scrabble().score(this.plays[i]);
+    }
+    return playersScore;
+  };
+  this.hasWon = function() {
+    if (this.totalScore() > 100) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  };
+  this.highestScoringWord = function() {
+    return new Scrabble().highestScoreFrom(this.plays);
+  };
+  this.highestWordScore = function() {
+    var word = this.highestScoringWord(this.plays);
+    return new Scrabble().score(word);
+  };
+};
+
+// var newPlayer = new Player("briana");
+// console.log(newPlayer.name);
+// newPlayer.play("test");
+// newPlayer.play("xxxxx");
+// console.log(newPlayer.plays);
+// console.log(newPlayer.totalScore());
+// console.log(newPlayer.hasWon());
+// console.log(newPlayer.highestScoringWord());
+// console.log(newPlayer.highestWordScore());
+
+// Scrabble.prototype.helloWorld = function() {
+//   return 'hello world!';
+// };
+//
+// module.exports = Scrabble;
