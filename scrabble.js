@@ -1,13 +1,17 @@
+//WAVE 1
+
 var Scrabble = function() {
   this.score = function(word) {
     var cases = {A: 1, E: 1, O: 1, U: 1, L: 1, N: 1, R: 1, S: 1, T: 1, D: 2, G: 2, B: 3, C: 3, M: 3, P: 3, F: 4, H: 4, V: 4, W: 4, Y: 4, K: 5, J: 8, X: 8, Q: 10, Z: 10};
     var letters = word.toUpperCase().split('');
     var total = 0;
 
+    //Adds 50 pt bonus for a seven letter word
     if (word.length == 7) {
       total += 50;
     }
 
+    //Adds up letter points for full word score
     for (var i = 0; i < letters.length; i++) {
       var letter = letters[i];
       total += cases[letter];
@@ -55,11 +59,13 @@ var Scrabble = function() {
 // var bestWord = anotherGame.highestScoreFrom(["xxxx", "hello", "aaaaa", "bloop", "xxxxx"]);
 // console.log(bestWord);
 
+//WAVE 2
 
 var Player = function(name) {
   this.name = name;
   this.plays = [];
   this.play = function(word) {
+    //Checks if player already won, adds word to plays if they haven't
     if (this.hasWon() === true) {
       return false;
     }
@@ -70,12 +76,14 @@ var Player = function(name) {
   this.totalScore = function() {
     var playersScore = 0;
 
+    //Scores each of the player's plays to get total score
     for (var i = 0; i < this.plays.length; i++) {
       playersScore += new Scrabble().score(this.plays[i]);
     }
     return playersScore;
   };
   this.hasWon = function() {
+    //Checks to see if player's score is over 100 (aka if they won)
     if (this.totalScore() > 100) {
       return true;
     }
@@ -84,10 +92,13 @@ var Player = function(name) {
     }
   };
   this.highestScoringWord = function() {
+    //Returns highest scoring word from the player's plays
     return new Scrabble().highestScoreFrom(this.plays);
   };
   this.highestWordScore = function() {
+    //Gets the player's highest scoring word
     var word = this.highestScoringWord(this.plays);
+    //Returns the score of the word
     return new Scrabble().score(word);
   };
 };
@@ -106,4 +117,4 @@ var Player = function(name) {
 //   return 'hello world!';
 // };
 //
-// module.exports = Scrabble;
+module.exports = Scrabble;
