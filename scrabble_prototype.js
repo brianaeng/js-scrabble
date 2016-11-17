@@ -64,6 +64,7 @@ Scrabble.prototype.highestScoreFrom = function(arrayOfWords) {
 var Player = function(name) {
   this.name = name;
   this.plays = [];
+  this.scrabbleGame = new Scrabble();
 };
 
 Player.prototype.play = function(word) {
@@ -81,7 +82,7 @@ Player.prototype.totalScore = function() {
 
   //Scores each of the player's plays to get total score
   for (var i = 0; i < this.plays.length; i++) {
-    playersScore += new Scrabble().score(this.plays[i]);
+    playersScore += this.scrabbleGame.score(this.plays[i]);
   }
   return playersScore;
 };
@@ -98,25 +99,25 @@ Player.prototype.hasWon = function() {
 
 Player.prototype.highestScoringWord = function() {
   //Returns highest scoring word from the player's plays
-  return new Scrabble().highestScoreFrom(this.plays);
+  return this.scrabbleGame.highestScoreFrom(this.plays);
 };
 
 Player.prototype.highestWordScore = function() {
     //Gets the player's highest scoring word
     var word = this.highestScoringWord(this.plays);
     //Returns the score of the word
-    return new Scrabble().score(word);
+    return this.scrabbleGame.score(word);
   };
 
-// var newPlayer = new Player("briana");
-// console.log(newPlayer.name);
-// newPlayer.play("test");
-// newPlayer.play("xxxxx");
-// console.log(newPlayer.plays);
-// console.log(newPlayer.totalScore());
-// console.log(newPlayer.hasWon());
-// console.log(newPlayer.highestScoringWord());
-// console.log(newPlayer.highestWordScore());
+var newPlayer = new Player("briana");
+console.log(newPlayer.name);
+newPlayer.play("test");
+newPlayer.play("xxxxx");
+console.log(newPlayer.plays);
+console.log(newPlayer.totalScore());
+console.log(newPlayer.hasWon());
+console.log(newPlayer.highestScoringWord());
+console.log(newPlayer.highestWordScore());
 
 // Scrabble.prototype.helloWorld = function() {
 //   return 'hello world!';

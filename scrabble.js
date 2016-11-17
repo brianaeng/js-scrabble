@@ -6,18 +6,23 @@ var Scrabble = function() {
     var letters = word.toUpperCase().split('');
     var total = 0;
 
-    //Adds 50 pt bonus for a seven letter word
-    if (word.length == 7) {
-      total += 50;
+    if (word.length > 7) {
+      return "Error. Incorrect number of tiles.";
     }
+    else {
+      //Adds 50 pt bonus for a seven letter word
+      if (word.length == 7) {
+        total += 50;
+      }
 
-    //Adds up letter points for full word score
-    for (var i = 0; i < letters.length; i++) {
-      var letter = letters[i];
-      total += cases[letter];
+      //Adds up letter points for full word score
+      for (var i = 0; i < letters.length; i++) {
+        var letter = letters[i];
+        total += cases[letter];
+      }
+
+      return total;
     }
-
-    return total;
   };
 
   this.highestScoreFrom = function(arrayOfWords) {
@@ -51,19 +56,30 @@ var Scrabble = function() {
   };
 };
 
-// var newGame = new Scrabble();
-// var wordScore = newGame.score("aaaaaaa");
-// console.log(wordScore);
-//
-// var anotherGame = new Scrabble();
-// var bestWord = anotherGame.highestScoreFrom(["xxxx", "hello", "aaaaa", "bloop", "xxxxx"]);
-// console.log(bestWord);
+var newGame = new Scrabble();
+console.log("Should be 57 points (7 + 50 bonus)");
+var wordScore = newGame.score("aaaaaaa");
+console.log(wordScore);
+
+console.log("Should print error message");
+var wordScore2 = newGame.score("aaaaaaaa");
+console.log(wordScore2);
+
+var anotherGame = new Scrabble();
+console.log("Should print xxxxx - highest scored word");
+var bestWord = anotherGame.highestScoreFrom(["xxxx", "hello", "aaaaa", "bloop", "xxxxx"]);
+console.log(bestWord);
+
+console.log("Should print z - same score, shorter word");
+var bestWord2 = anotherGame.highestScoreFrom(["z", "kk"]);
+console.log(bestWord2);
 
 //WAVE 2
 
 var Player = function(name) {
   this.name = name;
   this.plays = [];
+  var scrabbleGame = new Scrabble();
   this.play = function(word) {
     //Checks if player already won, adds word to plays if they haven't
     if (this.hasWon() === true) {
@@ -78,7 +94,7 @@ var Player = function(name) {
 
     //Scores each of the player's plays to get total score
     for (var i = 0; i < this.plays.length; i++) {
-      playersScore += new Scrabble().score(this.plays[i]);
+      playersScore += scrabbleGame.score(this.plays[i]);
     }
     return playersScore;
   };
@@ -93,25 +109,36 @@ var Player = function(name) {
   };
   this.highestScoringWord = function() {
     //Returns highest scoring word from the player's plays
-    return new Scrabble().highestScoreFrom(this.plays);
+    return scrabbleGame.highestScoreFrom(this.plays);
   };
   this.highestWordScore = function() {
     //Gets the player's highest scoring word
     var word = this.highestScoringWord(this.plays);
     //Returns the score of the word
-    return new Scrabble().score(word);
+    return scrabbleGame.score(word);
   };
 };
 
-// var newPlayer = new Player("briana");
-// console.log(newPlayer.name);
-// newPlayer.play("test");
-// newPlayer.play("xxxxx");
-// console.log(newPlayer.plays);
-// console.log(newPlayer.totalScore());
-// console.log(newPlayer.hasWon());
-// console.log(newPlayer.highestScoringWord());
-// console.log(newPlayer.highestWordScore());
+var newPlayer = new Player("briana");
+console.log("Should print briana");
+console.log(newPlayer.name);
+newPlayer.play("test");
+newPlayer.play("xxxxx");
+console.log("Should print test and xxxxx");
+console.log(newPlayer.plays);
+console.log("Should print 44");
+console.log(newPlayer.totalScore());
+console.log("Should print false");
+console.log(newPlayer.hasWon());
+console.log("Should print xxxxx");
+console.log(newPlayer.highestScoringWord());
+console.log("Should print 40");
+console.log(newPlayer.highestWordScore());
+newPlayer.play("xxxxxxx");
+console.log("Should print true");
+console.log(newPlayer.hasWon());
+console.log("Should print false");
+console.log(newPlayer.play("xxxxx"));
 
 // Scrabble.prototype.helloWorld = function() {
 //   return 'hello world!';
